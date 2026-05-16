@@ -49,7 +49,7 @@ export function AirplanesPage() {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Airplanes in Hangars</h1>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild><Button>Register Airplane</Button></DialogTrigger>
+          <DialogTrigger render={<Button />}>Register Airplane</DialogTrigger>
           <DialogContent>
             <DialogHeader><DialogTitle>Register New Airplane</DialogTitle></DialogHeader>
             <div className="grid gap-3">

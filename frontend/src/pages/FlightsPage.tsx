@@ -49,7 +49,7 @@ export function FlightsPage() {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Flights</h1>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogTrigger asChild><Button>Register Flight</Button></DialogTrigger>
+          <DialogTrigger render={<Button />}>Register Flight</DialogTrigger>
           <DialogContent>
             <DialogHeader><DialogTitle>Register New Flight</DialogTitle></DialogHeader>
             <div className="grid gap-3">
