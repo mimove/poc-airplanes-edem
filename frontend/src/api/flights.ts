@@ -1,5 +1,5 @@
 import client from "./client";
-import { Flight, FlightCreate } from "../types";
+import type { Flight, FlightCreate } from "../types";
 
 export const getFlights = () =>
   client.get<Flight[]>("/flights/").then((r) => r.data);

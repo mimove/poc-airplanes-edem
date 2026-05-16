@@ -1,5 +1,5 @@
 import client from "./client";
-import { Passenger, PassengerCreate } from "../types";
+import type { Passenger, PassengerCreate } from "../types";
 
 export const getPassengers = () =>
   client.get<Passenger[]>("/passengers/").then((r) => r.data);
