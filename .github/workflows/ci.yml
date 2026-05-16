@@ -41,6 +41,7 @@ jobs:
 
       - name: Run integration tests
         env:
+          DATABASE_URL: postgresql://aerodrome:aerodrome@localhost:5432/aerodrome_test
           TEST_DATABASE_URL: postgresql://aerodrome:aerodrome@localhost:5432/aerodrome_test
         run: python -m pytest tests/integration/ -v
         working-directory: backend
