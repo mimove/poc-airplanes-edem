@@ -56,7 +56,7 @@ def seed_database(db: Session) -> None:
         Flight(
             flight_id="FL-2025-002", plate_number="EC-ABC2",
             arrival_time=datetime(2026, 3, 2, 11, 15), departure_time=datetime(2026, 3, 2, 16, 30),
-            fuel_consumption=850, occupied_seats=8, origin="Barcelona", destination="London",
+            fuel_consumption=850, occupied_seats=6, origin="Barcelona", destination="London",
         ),
     ]
     db.add_all(flights)

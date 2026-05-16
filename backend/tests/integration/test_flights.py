@@ -39,6 +39,23 @@ def test_flight_not_found(client):
     assert response.status_code == 404
 
 
+def test_create_flight_overbooking(client):
+    _create_airplane(client, plate="EC-F003")
+    payload = {
+        "flight_id": "FL-TEST-003",
+        "plate_number": "EC-F003",
+        "arrival_time": "2026-03-01T09:00:00",
+        "departure_time": "2026-03-01T14:00:00",
+        "fuel_consumption": 200.0,
+        "occupied_seats": 11,  # capacity is 10
+        "origin": "Madrid",
+        "destination": "Paris",
+        "passengers": [],
+    }
+    response = client.post("/flights/", json=payload)
+    assert response.status_code == 400
+
+
 def test_create_flight_missing_airplane(client):
     payload = {
         "flight_id": "FL-TEST-002",

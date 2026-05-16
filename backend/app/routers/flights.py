@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session, joinedload
 from ..database import get_db
 from ..models import Airplane, Flight, FlightPassenger
 from ..schemas import FlightCreate, FlightResponse, FlightPassengerInfo
-from ..services.alerts import empty_seats_alert, fuel_alert
+from ..services.alerts import calculate_empty_seats, empty_seats_alert, fuel_alert
 
 router = APIRouter(prefix="/flights", tags=["flights"])
 
@@ -23,7 +23,7 @@ def _to_response(flight: Flight, airplane: Airplane) -> FlightResponse:
         origin=flight.origin,
         destination=flight.destination,
         passengers=passengers,
-        empty_seats=airplane.capacity - flight.occupied_seats,
+        empty_seats=calculate_empty_seats(airplane.capacity, flight.occupied_seats),
         empty_seats_alert=empty_seats_alert(airplane.capacity, flight.occupied_seats),
         fuel_alert=fuel_alert(flight.fuel_consumption, airplane.fuel_capacity),
     )
@@ -64,6 +64,8 @@ def create_flight(data: FlightCreate, db: Session = Depends(get_db)):
     airplane = db.query(Airplane).filter(Airplane.plate_number == data.plate_number).first()
     if not airplane:
         raise HTTPException(status_code=404, detail="Airplane not found")
+    if data.occupied_seats > airplane.capacity:
+        raise HTTPException(status_code=400, detail="Occupied seats exceed airplane capacity")
     flight_data = data.model_dump(exclude={"passengers"})
     flight = Flight(**flight_data)
     db.add(flight)
